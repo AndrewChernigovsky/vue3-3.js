@@ -23,19 +23,24 @@ export default {
 	},
 	methods: {
 		timerStart() {
+			
 			if (this.isRunning === true) {
 				this.seconds++
 
-				if (this.seconds >= 20) {
+				if (this.seconds >= 60) {
 					this.seconds = 0
 					this.minutes++
 				}
-				if (this.minutes >= 20) {
+				if (this.minutes >= 60) {
 					this.seconds = 0
 					this.hours++
 					this.minutes = 0
-					console.log(123123)
 				}
+
+				if (this.hours >= 24) {
+					return this.hours = 0
+				}
+
 			} else {
 				return
 			}
@@ -44,13 +49,19 @@ export default {
 		start(event) {
 			if (event) {
 				this.isRunning = true
-				setInterval(() => { this.timerStart() }, 50)
+	
+				setInterval(() => { this.timerStart() }, 1)
 			}
 		},
 		stop(event) {
 			if (event) {
 				this.isRunning = false
 				clearInterval(() => this.start())
+			}
+		},
+		add(event) {
+			if (event) {
+				return 
 			}
 		},
 	},
@@ -81,14 +92,23 @@ export default {
 		<div class="btn-container">
 			<button type="button" @click="start">Start</button>
 			<button type="button" @click="stop">Stop</button>
-			<button type="button" @click="reset">Reset</button>
-		</div>	
+		</div>
+
+		<div class="btn-add">
+            <button type="button" @click="add">Add</button>
+        </div>
+
+
 	</div>
 </template>
 
 <style lang="sass" scoped>
 	[v-cloak]
 		display: none
+
+	#clock
+		padding: 20px
+		min-width: 310px
 
 	.time 
 		color: black
@@ -110,5 +130,35 @@ export default {
 
 			&:not(:first-of-type)
 				margin-left: 20px
+	.btn-add
+		background-color: gray
+		min-width: 310px
+		min-height: 200px
+		display: flex
+		justify-content: center
+		align-items: center
+
+		button
+			background-color: blue
+			height: 50px
+			color: white
+			min-width: 100px
+			font-size: 20px
+			font-weight: bold
 
 </style>
+	// this.secundomers.secundomer.times.seconds++
+
+				// if (this.secundomers.secundomer.times.seconds >= 60) {
+				// 	this.secundomers.secundomer.times.seconds = 0
+				// 	this.secundomers.secundomer.times.minutes++
+				// }
+				// if (this.secundomers.secundomer.times.minutes >= 60) {
+				// 	this.secundomers.secundomer.times.seconds = 0
+				// 	this.secundomers.secundomer.times.hours++
+				// 	this.secundomers.secundomer.times.minutes = 0
+				// }
+
+				// if (this.secundomers.secundomer.times.hours >= 24) {
+				// 	return this.secundomers.secundomer.times.hours = 0
+				// }

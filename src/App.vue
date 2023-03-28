@@ -1,7 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
-import TheSecundomer from './components/TheSecundomer.vue';
 </script>
 
 <script>
@@ -15,13 +13,13 @@ export default {
 	},
 	methods: {
 		start() {
-			console.log('start');
+			console.log('start')
 		},
 		stop() {
-			console.log('stop');
+			console.log('stop')
 		},
 		reset() {
-			console.log('reset');
+			console.log('reset')
 		},
 	}
 }
@@ -32,79 +30,73 @@ export default {
   <header>
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
-    <div class="wrapper">
+    
       <!-- <HelloWorld msg="You did it!" /> -->
-	<TheSecundomer @start="start"  @stop="stop"  @reset="reset"/>
-      <nav>
+		
+      <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+      </nav> -->
   </header>
 
   <RouterView />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+<style lang="sass" scoped>
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+#app
+	grid-template-columns: 1fr
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
+header
+	line-height: 1.5
+	max-height: 100vh
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
+.logo 
+	display: block
+	margin: 0 auto 2rem
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
+nav 
+	width: 100%
+	font-size: 12px
+	text-align: center
+	margin-top: 2rem
 
-nav a:first-of-type {
-  border: 0;
-}
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+nav a.router-link-exact-active 
+	color: var(--color-text)
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+nav a.router-link-exact-active:hover 
+	background-color: transparent
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
+nav a 
+	display: inline-block
+	padding: 0 1rem
+	border-left: 1px solid var(--color-border)
 
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+nav a:first-of-type 
+	border: 0
+
+
+@media (min-width: 1024px) 
+	.wrapper 
+		display: flex
+		justify-content: center
+
+	header 
+		display: flex
+		place-items: center
+		padding-right: calc(var(--section-gap) / 2)
+
+	.logo 
+		margin: 0 2rem 0 0
+
+	nav 
+		text-align: left
+		margin-left: -1rem
+		font-size: 1rem
+
+		padding: 1rem 0
+		margin-top: 1rem
 </style>
