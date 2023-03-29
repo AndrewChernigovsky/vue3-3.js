@@ -1,33 +1,18 @@
 <script setup>
-
-// defineProps({
-// 	time: String
-// })
-
-
-
+import play from '@/assets/triangle.svg'
+import square from '@/assets/square.svg'
+import stopbutton from '@/assets/stop.svg'
 
 </script>
 
 <script>
 
 export default {
-	emits: ['start', 'stop', 'reset'],
 	data() {
 		return {
 			secondomers: [],
-			secondomer: {
-				isRunning: false,
-				start: false,
-				times: {
-					seconds: 0,
-					minutes: null,
-					hours: null,
-				},
-			}
+
 		}
-	},
-	computed: {
 	},
 	methods: {
 		timerStart(index) {
@@ -53,9 +38,7 @@ export default {
 			} else {
 				return
 			}
-
 		},
-
 		start(event, index) {
 			if (event) {
 				this.secondomers[index].isRunning  = true
@@ -83,7 +66,15 @@ export default {
 		},
 		add(event) {
 			if (event) {
-				
+				this.secondomer = {
+					isRunning: false,
+					start: false,
+					times: {
+						seconds: 0,
+						minutes: null,
+						hours: null,
+					},
+				}
 				return this.secondomers.push(this.secondomer)
 			}
 		},
@@ -94,24 +85,9 @@ export default {
 			}
 		},
 	},
-	// watch: {
-	// 	seconds() {
-	// 		this.start
-	// 	}
-	// },
 
 	mounted: function () {
 		this.start()
-		// this.secondomers.push(this.secondomer)
-		this.secondomer = {
-			isRunning: false,
-			start: false,
-			times: {
-				seconds: 0,
-				minutes: null,
-				hours: null,
-			},
-		}
 	}
 }
 
@@ -133,15 +109,20 @@ export default {
 
 
 
-		<div v-for="(secondomer, index) in secondomers" :key="secondomer">
-			<div>
+		<div v-for="(secondomer, index) in secondomers" :key="secondomer" class="secondomer">
+			<div class="time-wrapper">
 				<span class="time" v-if="secondomer.times.hours != null">{{ secondomer.times.hours + ':' }}</span>
 				<span class="time" v-if="secondomer.times.minutes != null">{{ secondomer.times.minutes + ':' }}</span>
 				<span class="time">{{ secondomer.times.seconds }}</span>
 			</div>
 			<div class="btn-container">
-				<button type="button" class="button" @click="start($event, index)">Start</button>
-				<button type="button" class="button" @click="stop($event, index)">Stop</button>
+				<button type="button" class="button" @click="start($event, index)" v-if="!this.secondomers[index].isRunning">
+					<img alt="play" class="triangle" :src="play" width="40" height="40" role="svg"/>
+				</button>
+				<button type="button" class="button" @click="stop($event, index)" v-if="this.secondomers[index].isRunning">
+					<img alt="play" class="stop" :src="stopbutton" width="40" height="40" role="svg"/>
+				</button>
+				<button type="button" class="button" @click="stop($event, index)"><img alt="play" class="square" :src="square" width="40" height="40" role="svg" /></button>
 				<button type="button" class="button" @click="reset($event, index)">Reset</button>
 			</div>
 		</div>
@@ -154,6 +135,13 @@ export default {
 </template>
 
 <style lang="sass" scoped>
+	@import '../assets/styles/variables.sass'
+	@import '../assets/styles/styles.sass'
+	.secondomer
+		background-color: $lightGrey
+		margin-bottom: 20px
+		padding: 20px
+
 	button
 		&:hover
 			opacity: 0.7
@@ -171,10 +159,15 @@ export default {
 		padding: 20px
 		min-width: 310px
 
+	.time-wrapper 
+		text-align: center
+		padding-bottom: 10px
+		border-bottom: 1px solid #9E9E9E
 	.time 
-		color: black
+		color: white
 		font-size: 60px
 		font-weight: bold
+		text-align: center
 
 	.btn-container
 		display: flex
@@ -182,7 +175,10 @@ export default {
 		align-items: center
 
 		.button
-			background-color: blue
+			// background-color: blue
+			background: transparent
+			border: none
+			outline: none
 			height: 50px
 			color: white
 			min-width: 100px

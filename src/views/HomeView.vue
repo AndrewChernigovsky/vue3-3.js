@@ -1,6 +1,6 @@
 <script setup>
 // import TheWelcome from '../components/TheWelcome.vue'
-import TheSecundomer from '../components/TheSecundomer.vue'
+// import TheSecundomer from '../components/TheSecundomer.vue'
 import TheSecundomer2 from '../components/TheSecundomer2.vue'
 </script>
 
