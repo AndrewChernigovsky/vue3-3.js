@@ -15,13 +15,10 @@ export default {
 	emits: ['start', 'stop', 'reset'],
 	data() {
 		return {
-			seconds: 0,
-			minutes: null,
-			hours: null,
-			isRunning: false,
 			secondomers: [],
 			secondomer: {
-				id: 1,
+				isRunning: false,
+				start: false,
 				times: {
 					seconds: 0,
 					minutes: null,
@@ -31,67 +28,90 @@ export default {
 		}
 	},
 	computed: {
-		getSeconds: function () { return this.secondomer.times.seconds },
-		getMinutes: function () { return this.secondomer.times.minutes },
-		getHours: function () { return this.secondomer.times.hours },
-		getID: function () { return this.secondomer.id }
 	},
 	methods: {
-		timerStart() {
-			let seconds = this.getSeconds
-			let minutes = this.getMinutes
-			let hours = this.getHours
+		timerStart(index) {
+			if (this.secondomers[index].isRunning === true) {
 
-			if (this.isRunning === true) {
-				seconds++
+				this.secondomers[index].times.seconds++
 
-				if (seconds >= 60) {
-					seconds = 0
-					minutes++
-				}
-				if (minutes  >= 60) {
-					seconds = 0
-					hours++
-					minutes = 0
+				if (this.secondomers[index].times.seconds >= 60) {
+					this.secondomers[index].times.seconds = 0
+					this.secondomers[index].times.minutes++
 				}
 
-				if (hours >= 24) {
-					return hours = 0
+				if (this.secondomers[index].times.minutes >= 60) {
+					this.secondomers[index].times.seconds = 0
+					this.secondomers[index].times.hours++
+					this.secondomers[index].times.minutes = 0
+				}
+
+				if (this.secondomers[index].times.hours >= 24) {
+					return this.secondomers[index].times.hours = 0
 				}
 
 			} else {
 				return
 			}
+
 		},
 
-		start(event) {
+		start(event, index) {
 			if (event) {
-				this.isRunning = true
-
-				setInterval(() => { this.timerStart() }, 1)
+				this.secondomers[index].isRunning  = true
+				setInterval(() => { this.timerStart(index) }, 1)
+				console.log(index, "Running")
 			}
 		},
-		stop(event) {
+		stop(event, index) {
 			if (event) {
-				this.isRunning = false
-				clearInterval(() => this.start())
+				this.secondomers[index].isRunning  = false
+				clearInterval(() => { this.start(index) })
+			}
+		},
+		reset(event, index) {
+			if (event) {
+				
+				return this.secondomers[index] = {
+					times: {
+						seconds: 0,
+						minutes: null,
+						hours: null,
+					}
+				}
 			}
 		},
 		add(event) {
 			if (event) {
-				console.log(this.secondomers)
+				
 				return this.secondomers.push(this.secondomer)
 			}
 		},
+		remove(event) {
+			if (event) {
+				
+				return this.secondomers.pop(this.secondomer)
+			}
+		},
 	},
-	watch: {
-		seconds() {
-			this.start
-		}
-	},
+	// watch: {
+	// 	seconds() {
+	// 		this.start
+	// 	}
+	// },
 
 	mounted: function () {
 		this.start()
+		// this.secondomers.push(this.secondomer)
+		this.secondomer = {
+			isRunning: false,
+			start: false,
+			times: {
+				seconds: 0,
+				minutes: null,
+				hours: null,
+			},
+		}
 	}
 }
 
@@ -109,26 +129,27 @@ export default {
 			<div class="btn-container">
 				<button type="button" class="button" @click="start">Start</button>
 				<button type="button" class="button" @click="stop">Stop</button>
-			</div>
+			</div> -->
 
-			 -->
 
-		<div v-for="secondomer in secondomers" :key="secondomer.id">
+
+		<div v-for="(secondomer, index) in secondomers" :key="secondomer">
 			<div>
 				<span class="time" v-if="secondomer.times.hours != null">{{ secondomer.times.hours + ':' }}</span>
 				<span class="time" v-if="secondomer.times.minutes != null">{{ secondomer.times.minutes + ':' }}</span>
 				<span class="time">{{ secondomer.times.seconds }}</span>
 			</div>
 			<div class="btn-container">
-				<button type="button" class="button" @click="start">Start</button>
-				<button type="button" class="button" @click="stop">Stop</button>
+				<button type="button" class="button" @click="start($event, index)">Start</button>
+				<button type="button" class="button" @click="stop($event, index)">Stop</button>
+				<button type="button" class="button" @click="reset($event, index)">Reset</button>
 			</div>
 		</div>
 
-		<div class="btn-add">
-			<button type="button" class="button" @click="add">Add</button>
+		<div class="btn-actions">
+			<button type="button" class="button" @click="add($event)">Add</button>
+			<button type="button" class="button" @click="remove($event)">Remove</button>
 		</div>
-
 	</div>
 </template>
 
@@ -170,7 +191,7 @@ export default {
 
 			&:not(:first-of-type)
 				margin-left: 20px
-	.btn-add
+	.btn-actions
 		background-color: gray
 		min-width: 310px
 		min-height: 200px
@@ -185,5 +206,8 @@ export default {
 			min-width: 100px
 			font-size: 20px
 			font-weight: bold
+
+			&:not(:first-child)
+				margin-left: 20px
 
 </style>
