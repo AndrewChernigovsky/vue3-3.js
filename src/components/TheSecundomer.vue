@@ -132,7 +132,7 @@ export default {
 				margin-left: 20px
 	.btn-add
 		background-color: gray
-		min-width: 310px
+		min-width: 225px
 		min-height: 200px
 		display: flex
 		justify-content: center
